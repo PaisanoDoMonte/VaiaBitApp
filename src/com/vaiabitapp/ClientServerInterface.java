@@ -21,7 +21,8 @@ public class ClientServerInterface {
 	static String json = "";
 	public static enum DI  {rune,run,s};
 
-	public static JSONArray loadFromDatabaseNew(String phpFileAddress, DI di) {
+	//Devuelve un Array JSON de la consulta
+	public static JSONArray loadFromDatabaseNew(String phpFileAddress, String funcion, String id) {
 		
 		JSONArray jsonArray = null;
 
@@ -34,7 +35,7 @@ public class ClientServerInterface {
 			// Send post request
 			conn.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-			wr.writeBytes("&run="+di);
+			wr.writeBytes("&Funcion="+funcion+"&Id="+id);
 			//wr.writeBytes("&run=run&pin=pin");
 			wr.flush();
 			wr.close();
@@ -65,5 +66,10 @@ public class ClientServerInterface {
 		}
 
 		return jsonArray;
+	}
+	
+	//Metodo Sobrescrito para no incluir parametro ID
+	public static JSONArray loadFromDatabaseNew(String phpFileAddress, String funcion) {
+		return loadFromDatabaseNew(phpFileAddress, funcion, "");
 	}
 }

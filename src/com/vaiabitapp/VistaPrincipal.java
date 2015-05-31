@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import com.example.vaiabitapp.R;
+import com.vaiabitapp.objetos.Producto;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -82,37 +83,50 @@ public class VistaPrincipal extends Activity {
 			return rootView;
 		}
 	}
-
-	class RetreiveData extends AsyncTask<String, String, String> {
-
+	
+	//*****************************************
+	//Clase para la creacion de hilos, Sobreescribir el onPostExecute para manejar los datos
+	class RetreiveData extends AsyncTask<String, String, JSONArray> {
+		private String direccion;
+		private String metodo;
+		private String id="";
+		
+		//Constructor para definir que metodo vamos a llamar y pasarle los datos, con sobrecargas
+		public RetreiveData(String direccion, String metodo) {
+			this.direccion= "http://5.134.115.139:8090/WebServices/"+direccion+".php";
+			this.metodo= metodo;			
+		}
+		
+		public RetreiveData(String direccion, String metodo, String id) {
+			this(direccion,metodo);
+			this.id= id;
+		}
+		
 		@Override
-		protected String doInBackground(String... arg0) {
+		protected JSONArray doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			jarr = ClientServerInterface.loadFromDatabaseNew("http://5.134.115.139:8090/WebServices/Productos.php", ClientServerInterface.DI.rune);
-			try {
-				jobj = jarr.getJSONObject(0);
-				//ab = String.valueOf(jobj.toString());
-				
-				ab= String.valueOf(jarr.toString());
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return ab;
-		}
-
-		protected void onPostExecute(String ab) {
-
-			textView.setText(ab);
-		}
+			jarr = ClientServerInterface.loadFromDatabaseNew(direccion, metodo, id);
+			return jarr;
+		}		
 
 	}
 
+	//*****************************************
+	
 	public void conectar(View View) {
 		
 		textView = (TextView) findViewById(R.id.textView1);
 		// start background processing
-		new RetreiveData().execute();
+		//AsyncTask<String, String, String> s = new RetreiveData().execute("","");
+		
+		new RetreiveData("Productos","GetProducto","1") {  
+            @Override  
+            public void onPostExecute(JSONArray message) {  
+            	Producto p = new Producto(message);
+            	textView.setText(p.toString());
+            }  
 
+		}.execute();
+		 
 	}
 }
