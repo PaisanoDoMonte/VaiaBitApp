@@ -62,6 +62,25 @@ public class Producto {
 		
 	}
 	
+	public Producto(JSONObject json){
+		try {
+			this.setId(json.getInt("id"));
+			this.setFabricanteId(json.getInt("FabricanteId"));
+			this.codigo=(json.getString("Codigo"));
+			this.setPartNumber(json.getString("PartNumber"));
+			this.setNombre(json.getString("Nombre"));
+			this.setDescripcion(json.getString("Descripcion"));
+			this.setDescripcionCorta(json.getString("DescripcionCorta"));
+			this.setUnidades(json.getInt("Unidades"));
+			this.setCategoria(json.getString("Categoria"));	
+			this.setNovedad(Utils.toBoolean(json.getInt("Novedad")));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	
 	
 	//Sobrescritos *********************************************************

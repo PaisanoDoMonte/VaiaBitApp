@@ -1,51 +1,67 @@
 package com.vaiabitapp;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import com.example.vaiabitapp.R;
+import com.vaiabitapp.FragmentListaDetalles.OnFragmentDetallesListener;
+import com.vaiabitapp.FragmentListaProductos.OnFragmentListaListener;
+import com.vaiabitapp.FragmentLoginRegistro.OnFragmentInteractionListener;
+import com.vaiabitapp.FragmentPrincipal.OnFragmentPrincipalListener;
+import com.vaiabitapp.R;
 import com.vaiabitapp.objetos.Producto;
+import com.vaiabitapp.utils.ConexionBD;
+import com.vaiabitapp.utils.HiloGetJSON;
+import com.vaiabitapp.utils.Utils;
 
-import android.app.Activity;
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.app.Fragment;
-import android.os.AsyncTask;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.os.Build;
+import android.widget.FrameLayout;
+import android.widget.Toast;
 
-public class VistaPrincipal extends Activity {
+public class VistaPrincipal extends Activity implements OnFragmentPrincipalListener, OnFragmentInteractionListener, OnFragmentListaListener, OnFragmentDetallesListener {
 
-	JSONObject jobj = null;
-	JSONArray jarr = null;
-	TextView textView;
-	String ab;
+	FragmentManager manager;
+	FragmentTransaction transaction;
+	FragmentPrincipal fragment;
+	private Boolean dualPane;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_vista_principal);
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
+		//Comprobamos si el dispositivo es una tablet o no para cambiar como presentar los fragment
+		int DisplaySize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK);
+		if( DisplaySize==  Configuration.SCREENLAYOUT_SIZE_XLARGE || DisplaySize == Configuration.SCREENLAYOUT_SIZE_LARGE){			
+			dualPane = true;
+			FrameLayout layout = (FrameLayout)findViewById(R.id.containerDetalles);
+			//Ocultamos el fragment derecho
+			layout.setVisibility(View.GONE); 
+		}else{			
+			setContentView(R.layout.activity_vista_principal);
+			dualPane = false;
 		}
+	
+		
+		if (savedInstanceState != null){
+			//Aquí recuperamos el fragment actual debido a rotacion del dispositivo
+		}else{
+			// Cargamos el fragment inicial
+			manager = getFragmentManager();
+			fragment = new FragmentPrincipal();
+			Utils.abrirFragment(fragment, manager,R.id.containerPrincipal, "principal", false);
+						
+		}	
+
 	}
 
 	@Override
@@ -67,66 +83,51 @@ public class VistaPrincipal extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
+	
+	
+	@Override
+	public void fragmentPrincipalListener() {
+		//TODO: BOrrar PRObablemente
+		
+	}
 
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_vista_principal,
-					container, false);
-			return rootView;
-		}
+	@Override
+	public void onFragmentInteraction(Uri uri) {
+		//TODO: BOrrar PRObablemente
+		
 	}
 	
-	//*****************************************
-	//Clase para la creacion de hilos, Sobreescribir el onPostExecute para manejar los datos
-	class RetreiveData extends AsyncTask<String, String, JSONArray> {
-		private String direccion;
-		private String metodo;
-		private String id="";
+	@Override
+	public void onFragmentDetalles(Producto producto) {
+		//TODO: BOrrar PRObablemente
 		
-		//Constructor para definir que metodo vamos a llamar y pasarle los datos, con sobrecargas
-		public RetreiveData(String direccion, String metodo) {
-			this.direccion= "http://5.134.115.139:8090/WebServices/"+direccion+".php";
-			this.metodo= metodo;			
+	}
+
+	
+	//Método de la interfaz lista, que nos permite abrir dos fragment a la vez si estamos en modo dual
+	@Override
+	public void onFragmentLista(Producto producto) {
+		FragmentListaDetalles listaDetalles = new FragmentListaDetalles(producto);	
+		if(dualPane){
+			Utils.cambiarFragment(listaDetalles, manager,R.id.containerDetalles, "detalles", false);				
+		}else{
+			Utils.cambiarFragment(listaDetalles, manager,R.id.containerPrincipal, "detalles", true);		
 		}
-		
-		public RetreiveData(String direccion, String metodo, String id) {
-			this(direccion,metodo);
-			this.id= id;
-		}
-		
-		@Override
-		protected JSONArray doInBackground(String... arg0) {
-			// TODO Auto-generated method stub
-			jarr = ClientServerInterface.loadFromDatabaseNew(direccion, metodo, id);
-			return jarr;
+
+	}
+
+	@Override
+	public void onBackPressed() {
+		//Si detectamos que estamos en modo dual, borramos el fragment detalles
+		FrameLayout layout = (FrameLayout)findViewById(R.id.containerDetalles);
+		if(dualPane && layout.isActivated()){
+			Utils.borrarFragment(getFragmentManager().findFragmentByTag("detalles"), manager);
+			layout = (FrameLayout)findViewById(R.id.containerDetalles);
+			layout.setVisibility(View.GONE); 		
 		}		
-
+		
+		super.onBackPressed();
 	}
-
-	//*****************************************
 	
-	public void conectar(View View) {
-		
-		textView = (TextView) findViewById(R.id.textView1);
-		// start background processing
-		//AsyncTask<String, String, String> s = new RetreiveData().execute("","");
-		
-		new RetreiveData("Productos","GetProducto","1") {  
-            @Override  
-            public void onPostExecute(JSONArray message) {  
-            	Producto p = new Producto(message);
-            	textView.setText(p.toString());
-            }  
-
-		}.execute();
-		 
-	}
+	
 }

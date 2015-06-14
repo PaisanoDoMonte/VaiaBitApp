@@ -1,10 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.vaiabitapp.VistaPrincipal"
-    tools:ignore="MergeRootFrame" >
+    tools:context="com.vaiabitapp.VistaPrincipal" >
 
-</FrameLayout>
+    <FrameLayout
+        android:id="@+id/containerPrincipal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:context="com.vaiabitapp.VistaPrincipal" >
+    </FrameLayout>
+    
+    <FrameLayout
+        android:id="@+id/containerDetalles"
+        android:layout_width="match_parent"       
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        tools:context="com.vaiabitapp.VistaPrincipal" >
+    </FrameLayout>
 
+</LinearLayout>
