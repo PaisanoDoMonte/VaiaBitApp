@@ -103,8 +103,13 @@ public class FragmentLoginRegistro extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View fragmentView;
 		
-		View fragmentView = inflater.inflate(R.layout.fragment_login_registro, container, false);
+		if(pantalla=="menuUsuario")
+			fragmentView = inflater.inflate(R.layout.fragment_login_registro_con_labels, container, false);
+		else
+			fragmentView = inflater.inflate(R.layout.fragment_login_registro, container, false);
+		
 		manager = getFragmentManager();
 		
 		//Cargar ets

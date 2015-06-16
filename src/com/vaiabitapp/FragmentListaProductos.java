@@ -208,8 +208,7 @@ public class FragmentListaProductos extends Fragment implements OnItemClickListe
         for(int i=0;i<productos.size();i++){
         	HashMap<String, Object> hm = new HashMap<String,Object>();	
         	Producto p = productos.get(i);	           
-            hm.put("txtNombre", p.getNombre());
-            hm.put("txtDescCorta", p.getDescripcionCorta());		  	            
+            hm.put("txtNombre", p.getNombre());		  	            
             hm.put("txtFabricante", p.getFabricante());
             hm.put("txtPrecio", new DecimalFormat("##.##").format(p.getPrecio().getPrecioTotal()) + " €");
 			//switch para imagenes genericas
@@ -235,10 +234,10 @@ public class FragmentListaProductos extends Fragment implements OnItemClickListe
             aList.add(hm);
         }
         // keys usadas en el Hashmap
-        String[] keys = { "imgImagen","txtNombre","txtDescCorta","txtPrecio","txtFabricante","imgNovedad" };
+        String[] keys = { "imgImagen","txtNombre","txtPrecio","txtFabricante","imgNovedad" };
         
         // Ids de las views del layout de productos
-        int[] ids = { R.id.imgImagen,R.id.txtNombre,R.id.txtDescCorta,R.id.txtPrecio,R.id.txtFabricante,R.id.imgNovedad}; 
+        int[] ids = { R.id.imgImagen,R.id.txtNombre,R.id.txtPrecio,R.id.txtFabricante,R.id.imgNovedad}; 
         
         //Creamos el adaptador
         SimpleAdapter adapter = new SimpleAdapter(getActivity(), aList, R.layout.listview_productos, keys, ids);	 

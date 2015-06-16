@@ -11,6 +11,15 @@
         android:orientation="vertical"
         tools:context="com.vaiabitapp.FragmentLoginRegistro" >
 
+        <TextView
+            android:id="@+id/TextView08"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Login y Registro"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etLogin"
             android:layout_width="match_parent"
@@ -29,6 +38,15 @@
             android:hint="Contraseña *"
             android:inputType="textPassword" />
 
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Correo"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etCorreo"
             android:layout_width="match_parent"
@@ -37,12 +55,30 @@
             android:hint="Correo *"
             android:inputType="textWebEmailAddress" />
 
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Nombre"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Nombre" />
+
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Apellidos"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etApellidos"
@@ -51,6 +87,15 @@
             android:ems="10"
             android:hint="Apellidos" />
 
+        <TextView
+            android:id="@+id/TextView03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Fecha de nacimiento"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etFechaNacimiento"
             android:layout_width="match_parent"
@@ -58,6 +103,15 @@
             android:ems="10"
             android:hint="Fecha de Nacimiento"
             android:inputType="date" />
+
+        <TextView
+            android:id="@+id/TextView04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Telefono 1 y Telefono 2"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,6 +135,15 @@
                 android:hint="Telefono 2" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/TextView05"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Dirección 1 y Dirección 2"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etDireccion1"
             android:layout_width="match_parent"
@@ -94,6 +157,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Dirección 2" />
+
+        <TextView
+            android:id="@+id/TextView06"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="Ciudad y Provincia"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -116,6 +188,15 @@
                 android:ems="10"
                 android:hint="Provincia" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/TextView07"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/holo_blue_light"
+            android:padding="10dp"
+            android:text="País y Código postal"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -7,38 +7,56 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/boton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:text="@string/login" />
 
     <Button
         android:id="@+id/btnRegistrar"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/boton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:text="@string/registrarse" />
 
     <Button
         android:id="@+id/btnReservarProductos"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/boton"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:text="Reservar Productos del carrito" />
     
     <Button
         android:id="@+id/btnMenuUsuario"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/boton"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
         android:text="Menú usuario" />
 
     <Button
         android:id="@+id/btnVerReservas"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/boton"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
         android:text="Ver reservas" />
     
     <Button
         android:id="@+id/btnApp"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/boton"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal"
         android:text="Ver todos los productos" />
 
 </LinearLayout>

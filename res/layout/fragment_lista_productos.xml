@@ -3,12 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#E8E8E8"
     tools:context="com.vaiabitapp.FragmentListaProductos" >
 
     <ListView
         android:id="@+id/ListViewLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="@android:color/transparent"
+  		android:dividerHeight="10dp"
+  		android:padding="10dp"
         layout="@android:layout/simple_list_item_1" >
         
     </ListView>
