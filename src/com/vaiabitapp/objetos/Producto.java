@@ -4,6 +4,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.graphics.Bitmap;
+
 import com.vaiabitapp.utils.Utils;
 
 public class Producto {
@@ -16,9 +18,12 @@ public class Producto {
 	private String descripcion;
 	private String descripcionCorta;
 	private int unidades;
-	// private bitmap imagen
+	private Bitmap imagen;
+	private String imagenId;
 	private String categoria;
 	private boolean novedad;
+	private ProductoPrecio precio;
+	private String fabricante;
 
 	// Constructores *********************************************************
 	
@@ -28,7 +33,7 @@ public class Producto {
 
 	public Producto(int id, int fabricanteId, String codigo, String partNumber,
 			String nombre, String descripcion, String descripcionCorta,
-			int unidades, String categoria, boolean novedad) {
+			int unidades, String categoria, boolean novedad, String imagenId, ProductoPrecio precio, String fabricante) {
 		this.setId(id);
 		this.setFabricanteId(fabricanteId);
 		this.setCodigo(codigo);
@@ -39,7 +44,9 @@ public class Producto {
 		this.setUnidades(unidades);
 		this.setCategoria(categoria);
 		this.setNovedad(novedad);
-
+		this.setImagenId(imagenId);
+		this.setPrecio(precio);
+		this.setFabricante(fabricante);
 	}
 
 	public Producto(JSONArray jsonArray){
@@ -55,6 +62,11 @@ public class Producto {
 			this.setUnidades(json.getInt("Unidades"));
 			this.setCategoria(json.getString("Categoria"));	
 			this.setNovedad(Utils.toBoolean(json.getInt("Novedad")));
+			this.setImagenId(json.getString("Imagen"));
+			this.setFabricante(json.getString("Fabricante"));
+			//Cargar el PRECIO
+			precio = new ProductoPrecio(json);
+						
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,6 +86,11 @@ public class Producto {
 			this.setUnidades(json.getInt("Unidades"));
 			this.setCategoria(json.getString("Categoria"));	
 			this.setNovedad(Utils.toBoolean(json.getInt("Novedad")));
+			this.setFabricante(json.getString("Fabricante"));
+			this.setImagenId(json.getString("Imagen"));
+			//Cargar el PRECIO
+			precio = new ProductoPrecio(json);
+			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,6 +193,36 @@ public class Producto {
 	public void setNovedad(boolean novedad) {
 		this.novedad = novedad;
 	}
-			
+		
+	public Bitmap getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(Bitmap imagen) {
+		this.imagen = imagen;
+	}
+
+	public String getImagenId() {
+		return imagenId;
+	}
+
+	public void setImagenId(String imagenId) {
+		this.imagenId = imagenId;
+	}
 	
+	public ProductoPrecio getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(ProductoPrecio precio) {
+		this.precio = precio;
+	}
+	
+	public String getFabricante() {
+		return fabricante;
+	}
+
+	public void setFabricante(String fabricante) {
+		this.fabricante = fabricante;
+	}
 }

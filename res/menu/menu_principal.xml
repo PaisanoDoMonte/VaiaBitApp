@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.vaiabitapp.VistaPrincipal" >
+    
+    <item
+        android:id="@+id/mnuUsuario"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        android:title="Usuario"/>
+    
+    <item
+        android:id="@+id/mnuCarrito"
+        android:orderInCategory="85"
+        android:showAsAction="ifRoom"
+        android:title="Carrito"
+        android:icon="@drawable/ic_shop"/>
+     
+    <item
+        android:id="@+id/mnuSalir"
+        android:orderInCategory="90"
+        android:showAsAction="ifRoom"
+        android:title="Salir"
+        android:icon="@drawable/ic_exit"/>
+    
+    <item
+        android:id="@+id/mnuLateral"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom"
+        android:title="Menu"
+        android:icon="@drawable/ic_menu"/>
+
+</menu>

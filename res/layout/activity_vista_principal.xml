@@ -1,24 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.vaiabitapp.VistaPrincipal" >
+    android:layout_height="match_parent" >
 
-    <FrameLayout
-        android:id="@+id/containerPrincipal"
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         tools:context="com.vaiabitapp.VistaPrincipal" >
-    </FrameLayout>
-    
-    <FrameLayout
-        android:id="@+id/containerDetalles"
-        android:layout_width="match_parent"       
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:context="com.vaiabitapp.VistaPrincipal" >
-    </FrameLayout>
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/containerPrincipal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:context="com.vaiabitapp.VistaPrincipal" >
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/containerDetalles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:context="com.vaiabitapp.VistaPrincipal" >
+        </FrameLayout>
+    </LinearLayout>
+   
+    <ExpandableListView
+        android:id="@+id/menuLateral"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="#007095"
+        android:choiceMode="singleChoice"
+        android:divider="#005875"
+        android:dividerHeight="2dp" />
+
+</android.support.v4.widget.DrawerLayout>

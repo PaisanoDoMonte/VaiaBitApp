@@ -8,7 +8,8 @@ import android.os.AsyncTask;
 	public abstract class HiloGetJSON extends AsyncTask<String, String, JSONArray> {
 		private String direccion;
 		private String metodo;
-		private String id="";
+		private String login="";
+		private String password="";
 		private JSONArray jarr;
 		
 		//Constructor para definir que metodo vamos a llamar y pasarle los datos, con sobrecargas
@@ -17,15 +18,16 @@ import android.os.AsyncTask;
 			this.metodo= metodo;			
 		}
 		
-		public HiloGetJSON(String ArchivoPHP, String metodo, String id) {
+		public HiloGetJSON(String ArchivoPHP, String metodo, String login, String password) {
 			this(ArchivoPHP,metodo);
-			this.id= id;
+			this.login= login;
+			this.password = password;
 		}
 		
 		@Override
 		protected JSONArray doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
-			jarr = ConexionBD.cargarJson(direccion, metodo, id);
+			jarr = ConexionBD.cargarJson(direccion, metodo, login, password);
 			return jarr;
 		}		
 		
@@ -34,3 +36,5 @@ import android.os.AsyncTask;
 		abstract protected void onPostExecute(JSONArray result);
 
 	}
+
+	
