@@ -5,6 +5,13 @@
     android:orientation="vertical"
     tools:context="com.vaiabitapp.FragmentPrincipal" >
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/black"
+        android:src="@drawable/ic_vaiabit_white" />
+
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="300dp"
