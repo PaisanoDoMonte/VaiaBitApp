@@ -13,6 +13,7 @@ import org.json.JSONException;
 
 import com.vaiabitapp.FragmentListaProductos.OnFragmentListaListener;
 import com.vaiabitapp.objetos.Producto;
+import com.vaiabitapp.objetos.Usuario;
 import com.vaiabitapp.utils.HiloGetImagenes;
 import com.vaiabitapp.utils.HiloGetJSON;
 import com.vaiabitapp.utils.Utils;
@@ -60,6 +61,7 @@ public class FragmentListaProductos extends Fragment implements OnItemClickListe
 	private ArrayList<Producto> productos;
 	private String metodoPhp;
 	private boolean esCarrito;
+	private int usuarioId;
 
 	public FragmentListaProductos(String metodoPhp) {
 		this.metodoPhp = metodoPhp;
@@ -71,13 +73,30 @@ public class FragmentListaProductos extends Fragment implements OnItemClickListe
 		this.productos = productos;
 		this.esCarrito = esCarrito;
 	}
+	
+	//Constructor para ver reservas
+		public FragmentListaProductos(String metodoPhp, Usuario usuario) {
+			this.metodoPhp = metodoPhp;
+			if(usuario!=null){
+				this.usuarioId = usuario.getId();
+			}
+			else{
+				this.usuarioId = 0;
+			}		
+			this.esCarrito = false;
+		}
 
 	
 	//cambiamos el menú 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActivity().getActionBar().setTitle("Productos");
+		if(usuarioId!=0)
+			getActivity().getActionBar().setTitle("Productos Reservados");
+		else if(esCarrito)
+			getActivity().getActionBar().setTitle("Productos del carrito");
+		else
+			getActivity().getActionBar().setTitle("Productos");
 	}
 	
 	@Override
@@ -116,8 +135,10 @@ public class FragmentListaProductos extends Fragment implements OnItemClickListe
 			// inicializamos el array de productos
 			productos = new ArrayList<Producto>();
 			
+
+			
 			// Añadimos los productos al array
-			new HiloGetJSON("Productos",metodoPhp) {			
+			new HiloGetJSON("Productos",metodoPhp,usuarioId) {			
 				@Override
 				protected void onPostExecute(JSONArray result) {
 					

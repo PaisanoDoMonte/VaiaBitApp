@@ -49,11 +49,13 @@ public class FragmentPrincipal extends Fragment {
 		Button btnRegistar = (Button) fragmentView.findViewById(R.id.btnRegistrar);
 		Button btnLogin = (Button) fragmentView.findViewById(R.id.btnLogin);
 		Button btnApp = (Button) fragmentView.findViewById(R.id.btnApp);
+		Button btnReservas = (Button) fragmentView.findViewById(R.id.btnVerReservas);
 		
 		//Ocultamos los botones de usuario si no está logueado
 		if(((VistaPrincipal)getActivity()).usuario==null){
 			((ViewGroup) btnReservar.getParent()).removeView(btnReservar);
 			((ViewGroup) btnMenuUsuario.getParent()).removeView(btnMenuUsuario);
+			((ViewGroup) btnReservas.getParent()).removeView(btnReservas);
 		}else{
 			((ViewGroup) btnLogin.getParent()).removeView(btnLogin);
 			((ViewGroup) btnRegistar.getParent()).removeView(btnRegistar);
@@ -107,6 +109,15 @@ public class FragmentPrincipal extends Fragment {
 					Toast.makeText(getActivity(), "Productos Reservados", Toast.LENGTH_SHORT).show();
 					((VistaPrincipal)getActivity()).productosCarrito=null;
 				}
+			}
+		});
+		
+		btnReservas.setOnClickListener(new OnClickListener() {
+			//Ver reservas del usuario
+			@Override
+			public void onClick(View v) {
+				FragmentListaProductos fragment = new FragmentListaProductos("GetProductosReservaUsuario", ((VistaPrincipal)getActivity()).usuario);
+				Utils.cambiarFragment(fragment, manager,R.id.containerPrincipal, "listaReservas");
 			}
 		});
 

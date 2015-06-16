@@ -17,10 +17,11 @@ public class Usuario {
 		private String correo;
 		private String nombre;
 		private String apellidos;
-		private String fechaNacimiento;
+		private String fechaNacimiento; 
 		private String telefono1;
 		private String telefono2;
 		private String fechaRegistro;
+		private Domicilio domicilio;
 
 		// Constructores *********************************************************
 		
@@ -30,7 +31,7 @@ public class Usuario {
 
 		public Usuario(int id, int rolId, String login, String password,
 				String nombre, String correo, String apellidos,
-				String fechaNacimiento, String telefono1, String telefono2, String fechaRegistro) {
+				String fechaNacimiento, String telefono1, String telefono2, String fechaRegistro, Domicilio domicilio) {
 			this.setId(id);
 			this.setRolId(rolId);
 			this.setLogin(login);
@@ -58,6 +59,8 @@ public class Usuario {
 				this.setFechaRegistro(json.getString("FechaRegistro"));
 				this.setTelefono1(json.getString("Telefono1"));
 				this.setTelefono2(json.getString("Telefono2"));
+				//Cargar el Domicilio
+				domicilio = new Domicilio(json);
 							
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -79,6 +82,8 @@ public class Usuario {
 				this.setFechaRegistro(json.getString("FechaRegistro"));
 				this.setTelefono1(json.getString("Telefono1"));
 				this.setTelefono2(json.getString("Telefono2"));
+				//Cargar el Domicilio
+				domicilio = new Domicilio(json);
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -192,4 +197,14 @@ public class Usuario {
 		public void setFechaRegistro(String fechaRegistro) {
 			this.fechaRegistro = fechaRegistro;
 		}
+
+		public Domicilio getDomicilio() {
+			return domicilio;
+		}
+
+		public void setDomicilio(Domicilio domicilio) {
+			this.domicilio = domicilio;
+		}
+			
+		
 }

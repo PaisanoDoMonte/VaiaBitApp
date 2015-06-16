@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/login_hint" >
+            android:hint="Login *" >
 
             <requestFocus />
         </EditText>
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/contrasenha_hint"
+            android:hint="Contraseña *"
             android:inputType="textPassword" />
 
         <EditText
@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Correo"
+            android:hint="Correo *"
             android:inputType="textWebEmailAddress" />
 
         <EditText
@@ -71,6 +71,49 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Telefono 2" />
+
+        <EditText
+            android:id="@+id/etDireccion1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Dirección 1" />
+
+        <EditText
+            android:id="@+id/etDireccion2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Dirección 2" />
+
+        <EditText
+            android:id="@+id/etCiudad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Ciudad" />
+
+        <EditText
+            android:id="@+id/etProvincia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Provincia" />
+
+        <EditText
+            android:id="@+id/etPais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="País" />
+
+        <EditText
+            android:id="@+id/etCodigoPostal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Código postal"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/btnIniciar"

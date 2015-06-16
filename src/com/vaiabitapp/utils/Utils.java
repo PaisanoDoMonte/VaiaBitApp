@@ -38,12 +38,18 @@ public class Utils {
 	}
 
 	// Metodo generico para cambiar los fragment a pantalla completa
-	public static void cambiarFragment(Fragment fragment, FragmentManager manager, int container, String tag) {
+	public static void cambiarFragment(Fragment fragment, FragmentManager manager, int container, String tag, boolean dual) {
 		FragmentTransaction transaction = manager.beginTransaction();
 		transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		transaction.replace(container, (Fragment) fragment, tag);
-		transaction.addToBackStack(null);
+		if(!dual)
+			transaction.addToBackStack(tag);
 		transaction.commit();
+	}
+	
+	// Metodo sobrescrito para pantalla dual
+	public static void cambiarFragment(Fragment fragment, FragmentManager manager, int container, String tag) {
+		cambiarFragment(fragment, manager, container, tag, false);
 	}
 	
 	// Metodo generico para abrir los fragment a pantalla completa

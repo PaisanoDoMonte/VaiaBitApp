@@ -100,10 +100,10 @@ public class ProductoPrecio {
 		double iva = this.iva;
 		
 		if(descuento!=0){
-			return precio*descuento*iva; 
+			return (precio*descuento)+((precio*descuento)*(iva/100)); 
 		}
 		else
-			return precio*iva;
+			return precio+precio*(iva/100);
 		
 	}
 	

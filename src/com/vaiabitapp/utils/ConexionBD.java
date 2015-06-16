@@ -15,15 +15,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 // Clase que realiza las comunicaciones con el server
-public class ConexionBD {
+public class ConexionBD { 
 	
 	// Metodo Sobrescrito para no incluir parametros
 	public static JSONArray cargarJson(String phpFileAddress, String funcion) {
 		return cargarJson(phpFileAddress, funcion, "", "");
 	}
 	
+	public static JSONArray cargarJson(String phpFileAddress, String funcion, String login, String password){
+		return cargarJson(phpFileAddress, funcion, login, password, 0);
+	}
+	
+	public static JSONArray cargarJson(String phpFileAddress, String funcion, int usuarioId) {
+		return cargarJson(phpFileAddress, funcion, "", "", usuarioId);
+	}		
+	
 	// Devuelve un Array JSON de la consulta
-	public static JSONArray cargarJson(String phpFileAddress, String funcion, String login, String password) {
+	public static JSONArray cargarJson(String phpFileAddress, String funcion, String login, String password, int usuarioId) {
 		
 		//variables
 		JSONArray jsonArray = null;
@@ -36,7 +44,7 @@ public class ConexionBD {
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-			wr.writeBytes("&Funcion=" + funcion + "&Login=" + login +"&PassWord="+password);
+			wr.writeBytes("&Funcion=" + funcion + "&Login=" + login +"&PassWord="+password+"&UsuarioId="+usuarioId);
 			wr.flush();
 			wr.close();
 			
@@ -134,6 +142,57 @@ public class ConexionBD {
 				DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
 				wr.writeBytes("&Funcion=" + funcion + "&ProductoId=" + productoId +"&UsuarioId="+ UsuarioId
 						+"&Unidades="+Unidades);
+				wr.flush();
+				wr.close();
+				
+				conn.connect();
+				
+				InputStream is = conn.getInputStream();
+				BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+				StringBuilder responseStrBuilder = new StringBuilder();
+
+				String inputStr;
+				while ((inputStr = streamReader.readLine()) != null)
+					responseStrBuilder.append(inputStr);
+
+				resp = responseStrBuilder.toString();
+				
+				conn.disconnect();
+				
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return resp;
+
+		}
+		
+		//Metodo sobrescrito
+		public static String ejecutarDomicilio(String phpFileAddress, String funcion, int usuarioId, String direccion1, String direccion2,
+				String ciudad, String provincia, String pais, int codigoPostal) {
+			return ejecutarDomicilio(phpFileAddress, funcion, 0, usuarioId, direccion1, direccion2, ciudad, provincia, pais, codigoPostal);
+
+		}
+		
+		//metodo para insertar datos en la bd Domicilio
+		public static String ejecutarDomicilio(String phpFileAddress, String funcion, int id, int usuarioId, String direccion1, String direccion2,
+				String ciudad, String provincia, String pais, int codigoPostal) {
+
+			String resp="";
+			try {
+
+				URL url = new URL(phpFileAddress);
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				//enviar post y preparar outputstream con los datos que enviamos por post
+				conn.setRequestMethod("POST");
+				conn.setDoOutput(true);
+				DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+				wr.writeBytes("&Funcion=" + funcion + "&UsuarioId=" + usuarioId +"&Direccion1="+ direccion1
+						+"&Direccion2="+direccion2+"&Ciudad="+ciudad+"&Provincia="+provincia
+						+"&Pais="+pais+"&CodigoPostal="+codigoPostal+"&Id="+id);
 				wr.flush();
 				wr.close();
 				

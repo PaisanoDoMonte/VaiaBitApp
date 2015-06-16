@@ -212,10 +212,12 @@ public class VistaPrincipal extends Activity implements OnFragmentPrincipalListe
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 				FragmentListaProductos fragment;
+				//quitamos fragment detalles si estamos en modo dual
+				quitarFragmentDetalles();
 				switch (groupPosition) {
 				case 0:
 					switch (childPosition) {
-					case 0:
+					case 0:						
 						fragment = new FragmentListaProductos("GetProductosGraficas");
 						Utils.cambiarFragment(fragment, manager,R.id.containerPrincipal, "listaGraficas");
 						break;
@@ -301,7 +303,7 @@ public class VistaPrincipal extends Activity implements OnFragmentPrincipalListe
 	public void onFragmentLista(Producto producto, boolean esCarrito) {
 		FragmentListaDetalles listaDetalles = new FragmentListaDetalles(producto, dualPane, esCarrito);	
 		if(dualPane){
-			Utils.cambiarFragment(listaDetalles, manager,R.id.containerDetalles, "detalles");				
+			Utils.cambiarFragment(listaDetalles, manager,R.id.containerDetalles, "detalles", true);				
 		}else{
 			Utils.cambiarFragment(listaDetalles, manager,R.id.containerPrincipal, "detalles");		
 		} 
@@ -312,11 +314,9 @@ public class VistaPrincipal extends Activity implements OnFragmentPrincipalListe
 	
 	@Override
 	public void onBackPressed() {
-		if (manager.getBackStackEntryCount() > 0) {
 			quitarFragmentDetalles();
 			super.onBackPressed();
 			manager.popBackStack();
-		}
 	}
 	
 	public void quitarFragmentDetalles() {

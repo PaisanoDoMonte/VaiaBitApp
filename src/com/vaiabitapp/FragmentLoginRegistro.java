@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import com.vaiabitapp.objetos.Usuario;
 import com.vaiabitapp.utils.ConexionBD;
 import com.vaiabitapp.utils.HiloGetJSON;
+import com.vaiabitapp.utils.HiloManejarDomicilios;
 import com.vaiabitapp.utils.HiloManejarUsuarios;
 import com.vaiabitapp.utils.Utils;
 
@@ -13,6 +14,7 @@ import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,6 +44,12 @@ public class FragmentLoginRegistro extends Fragment {
 	private EditText etTelefono2;
 	private EditText etLogin;
 	private EditText etPassword;
+	private EditText etDireccion1;
+	private EditText etDireccion2;
+	private EditText etCiudad;
+	private EditText etProvincia;
+	private EditText etPais;
+	private EditText etCodigoPostal;
 	private Usuario usuario;
 	
 	//variable que ocultará el boton de registro y ets si es true y el de iniciar si es false
@@ -108,6 +116,12 @@ public class FragmentLoginRegistro extends Fragment {
 		etTelefono2= (EditText) fragmentView.findViewById(R.id.etTelefono2);	
 		etLogin = (EditText) fragmentView.findViewById(R.id.etLogin);
 		etPassword = (EditText) fragmentView.findViewById(R.id.etPassword);
+		etDireccion1 = (EditText) fragmentView.findViewById(R.id.etDireccion1);
+		etDireccion2 = (EditText) fragmentView.findViewById(R.id.etDireccion2);
+		etCiudad = (EditText) fragmentView.findViewById(R.id.etCiudad);
+		etProvincia = (EditText) fragmentView.findViewById(R.id.etProvincia);
+		etPais = (EditText) fragmentView.findViewById(R.id.etPais);
+		etCodigoPostal = (EditText) fragmentView.findViewById(R.id.etCodigoPostal);		
 		btnIniciar = (Button) fragmentView.findViewById(R.id.btnIniciar);
 		btnCancelar = (Button) fragmentView.findViewById(R.id.btnCancelar);
 		btnRegistrar = (Button) fragmentView.findViewById(R.id.btnRegistrar);
@@ -126,6 +140,12 @@ public class FragmentLoginRegistro extends Fragment {
 			((ViewGroup) etFechaNacimiento.getParent()).removeView(etFechaNacimiento);
 			((ViewGroup) etTelefono1.getParent()).removeView(etTelefono1);
 			((ViewGroup) etTelefono2.getParent()).removeView(etTelefono2);
+			((ViewGroup) etDireccion1.getParent()).removeView(etDireccion1);
+			((ViewGroup) etDireccion2.getParent()).removeView(etDireccion2);
+			((ViewGroup) etCiudad.getParent()).removeView(etCiudad);
+			((ViewGroup) etProvincia.getParent()).removeView(etProvincia);
+			((ViewGroup) etPais.getParent()).removeView(etPais);
+			((ViewGroup) etCodigoPostal.getParent()).removeView(etCodigoPostal);
 			
 			//Si el usuario está registrado logueamos
 			btnIniciar.setOnClickListener(new OnClickListener() {
@@ -173,8 +193,38 @@ public class FragmentLoginRegistro extends Fragment {
 							etTelefono2.getText().toString(), true){
 						@Override
 						protected void onPostExecute(String result) {
-							Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 							
+							Toast.makeText(getActivity(), "Usuario: "+result, Toast.LENGTH_SHORT).show();
+							
+							//Hilo para recuperar el usuario insertado
+							new HiloGetJSON("Usuarios","GetUsuario", etLogin.getText().toString(), etPassword.getText().toString()) {								
+								@Override
+								protected void onPostExecute(JSONArray result) {
+									//guardamos el usuario en una variable
+									Usuario usuario = new Usuario(result);
+									//variable para el int que no casque si esta vacia
+									int codigo;
+									if(etCodigoPostal.getText().toString().equals(""))
+										codigo = 0;
+									else
+										codigo = Integer.valueOf(etCodigoPostal.getText().toString());
+									//Ejecutamos otro hilo para realizar la insercion
+									new HiloManejarDomicilios("Domicilio", "SetDomicilio", usuario.getId(), etDireccion1.getText().toString(), etDireccion2.getText().toString(), 
+											etCiudad.getText().toString(),
+											etProvincia.getText().toString(), etPais.getText().toString(),codigo , true) {
+										
+										@Override
+										protected void onPostExecute(String result) {
+											
+											Toast.makeText(getActivity(), "Domicilio: "+result, Toast.LENGTH_SHORT).show();
+											if(result.equals("Operacion realizada Correctamente"))
+												manager.popBackStack();
+										}
+									}.execute();
+									
+								}
+							}.execute();
+
 						}
 						
 					}.execute();
@@ -203,6 +253,12 @@ public class FragmentLoginRegistro extends Fragment {
 			etFechaNacimiento.setText(usuario.getFechaNacimiento());
 			etTelefono1.setText(usuario.getTelefono1());
 			etTelefono2.setText(usuario.getTelefono2());
+			etDireccion1.setText(usuario.getDomicilio().getDireccion1());
+			etDireccion2.setText(usuario.getDomicilio().getDireccion2());
+			etCiudad.setText(usuario.getDomicilio().getCiudad());
+			etProvincia.setText(usuario.getDomicilio().getProvincia());
+			etPais.setText(usuario.getDomicilio().getPais());
+			etCodigoPostal.setText(String.valueOf(usuario.getDomicilio().getCodigoPostal()));
 			
 			//Boton para actualizar los datos del usuario
 			btnActualizarUsuario.setOnClickListener(new OnClickListener() {
@@ -215,8 +271,49 @@ public class FragmentLoginRegistro extends Fragment {
 						
 						@Override
 						protected void onPostExecute(String result) {
-							Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();	
-							btnCerrarSesion.performClick();
+							Toast.makeText(getActivity(), "Usuario: "+result, Toast.LENGTH_LONG).show();	
+
+							//Hilo para recuperar el usuario insertado
+							new HiloGetJSON("Usuarios","GetUsuario", usuario.getLogin(), usuario.getPassword()) {								
+								@Override
+								protected void onPostExecute(JSONArray result) {
+									//guardamos el usuario en una variable
+									Usuario us = new Usuario(result);
+									
+									//variable para el int que no casque si esta vacia
+									boolean crearnuevo;
+									String metodo;
+									if(us.getDomicilio().getUsuarioId()==0){
+										crearnuevo = true;
+										metodo = "SetDomicilio"; 
+									}
+									else{
+										crearnuevo = false;
+										metodo = "UpdateDomicilio";
+									}
+									
+									int codigo;
+									if(etCodigoPostal.getText().toString().equals(""))
+										codigo = 0;
+									else
+										codigo = Integer.valueOf(etCodigoPostal.getText().toString());
+									
+									//Ejecutamos otro hilo para realizar la insercion
+									new HiloManejarDomicilios("Domicilio", metodo, us.getDomicilio().getUsuarioId(), etDireccion1.getText().toString(), etDireccion2.getText().toString(), 
+											etCiudad.getText().toString(),
+											etProvincia.getText().toString(), etPais.getText().toString(), codigo , crearnuevo) {
+										
+										@Override
+										protected void onPostExecute(String result) {
+											
+											Toast.makeText(getActivity(), "Domicilio: "+result, Toast.LENGTH_LONG).show();
+											btnCerrarSesion.performClick();
+										}
+									}.execute();
+									
+								}
+							}.execute();
+					
 						}
 					}.execute();
 				}
